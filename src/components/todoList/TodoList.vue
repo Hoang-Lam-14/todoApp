@@ -82,7 +82,6 @@ const removeTodo = (todo) => {
 }
 
 .todo_item_wrapper.isDone {
-    background-color: dimgrey;
     opacity: 0.5;
 }
 </style>
