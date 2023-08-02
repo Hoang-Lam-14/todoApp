@@ -1,37 +1,41 @@
 <script setup>
-
+const props = defineProps({
+    content: String,
+    isDone: Boolean,
+});
 </script>
 
 <template>
-    <div class="todo_item_wrapper">
-        <input type="checkbox">
-        <div class="todo_item_content">Hello, World</div>
+    <div class="todo_item_wrapper" :class="{ isDone: isDone }">
+        <input id="check" type="checkbox" v-on:change="isDone" >
+        <div class="todo_item_content">{{ content }}</div>
         <button>Xóa</button>
     </div>
 </template>
 
 <style>
-    .todo_item_wrapper{
-        display: flex;
-        height: 2rem;
-        width: 650px;
-        justify-content: space-around;
-        background-color: antiquewhite;
-        border: 1px solid #000;
-        border-radius: 10px;
-    }
+.todo_item_wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    width: 600px;
+    height: 30px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #000;
+    background-color: white;
+}
 
-    .todo_item_wrapper .todo_item_content{
-        width: 70%;
-        font-size: 1.2rem;
-    }
+#check {
+    margin-right: 10px;
+}
 
-    .todo_item_wrapper input{
-        width: 10%;
-    }
+button {
+    margin-left: 10px;
+}
 
-    .todo_item_wrapper button{
-        width: 20%;
-    }
-
+.todo_item_wrapper.isDone {
+    background-color: dimgrey;
+}
 </style>
