@@ -73,14 +73,14 @@ const removeTodo = (todo) => {
     background-color: white;
 }
 
-#check {
-    margin-right: 10px;
-}
-
 .todo_item_wrapper .todo_item_content{
     width: 70%;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.isDone{
+    opacity: 0.5;
 }
 
 </style>
