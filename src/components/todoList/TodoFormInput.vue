@@ -15,7 +15,7 @@ const addTodo = async () => {
         })
 
         store.commit('addTodoItem', {
-            id: store.getters.todoItems.length + 1,
+            id: store.getters.todoItems.length > 0 ? store.getters.todoItems[store.getters.todoItems.length - 1].id + 1 : 1,
             content: content.value,
             isDone: false,
         })
