@@ -1,18 +1,16 @@
 <script setup>
 import TodoFormInput from './TodoFormInput.vue';
 import TodoItem from './TodoItem.vue';
-import { useStore } from 'vuex';
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const store = useStore();
-const todos = ref([]);
+const todos = ref([])
 
 fetch('http://192.168.5.131:9000')
     .then(response => response.json()
         .then(data => todos.value = data))
 
-const getTodo = async () => {
-    await fetch('http://192.168.5.131:9000')
+const getTodo = () => {
+    fetch('http://192.168.5.131:9000')
         .then(response => response.json()
             .then(data => todos.value = data))
 }
@@ -21,7 +19,7 @@ const getTodo = async () => {
 
 <template>
     <div class="todo_list_wrapper">
-        <TodoFormInput @addTodo="getTodo" />
+        <TodoFormInput @addTodo="getTodo"/>
         <TodoItem v-for="todo in todos" @deleteTodo="getTodo" @update="getTodo" :id="todo.id" :content="todo.title"/>
     </div>
 </template>

@@ -1,8 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import { useStore } from 'vuex';
 
-const store = useStore();
 const content = ref('');
 const isLoading = ref(false);
 const emit = defineEmits(['addTodo'])
@@ -16,10 +14,11 @@ const addTodo = () => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ title: content.value })
         }).then(() => {
-            isLoading.value = false;
+            emit('addTodo');
+        }).then(() => {
             content.value = '';
-            emit('addTodo')
-        })     
+            isLoading.value = false;
+        })
     }    
 }
 </script>
