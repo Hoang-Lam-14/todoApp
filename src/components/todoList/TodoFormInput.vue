@@ -8,26 +8,32 @@ const isLoading = ref(false);
 const addTodo = async () => {
     if (content.value === '') return;
     else {
-        isLoading.value = true;
-        await new Promise(r => {
-            setTimeout(r, 2000)
-            console.log(isLoading.value); 
-        })
+        // isLoading.value = true;
+        // await new Promise(r => {
+        //     setTimeout(r, 2000)
+        //     console.log(isLoading.value); 
+        // })
 
-        store.commit('addTodoItem', {
-            id: store.getters.todoItems.length > 0 ? store.getters.todoItems[store.getters.todoItems.length - 1].id + 1 : 1,
-            content: content.value,
-            isDone: false,
-        })
-        content.value = ''  
-        isLoading.value = false;
+        // store.commit('addTodoItem', {
+        //     id: store.getters.todoItems.length > 0 ? store.getters.todoItems[store.getters.todoItems.length - 1].id + 1 : 1,
+        //     content: content.value,
+        //     isDone: false,
+        // })
+        // content.value = ''  
+        // isLoading.value = false;
+
+        fetch('http://192.168.5.131:9000',{
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ title: content.value })
+        }).then()
     }
 }
 
 </script>
 
 <template>
-    <form v-if="isLoading === false" @submit.prevent="addTodo">
+    <form v-if="isLoading === false" @submit="addTodo">
         <input class="todo_input" type="text" placeholder="Nhập..." v-model="content">
         <button class="todo_button">Thêm</button>
     </form>

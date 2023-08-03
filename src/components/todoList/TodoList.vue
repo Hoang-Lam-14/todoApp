@@ -2,16 +2,21 @@
 import TodoFormInput from './TodoFormInput.vue';
 import TodoItem from './TodoItem.vue';
 import { useStore } from 'vuex';
+import { ref } from 'vue'
 
 const store = useStore();
-const todos = store.getters.todoItems;
+const todos = ref([]);
+
+fetch('http://192.168.5.131:9000')
+    .then(response => response.json()
+    .then(data => todos.value = data))
 
 </script>
 
 <template>
     <div class="todo_list_wrapper">
         <TodoFormInput />
-        <TodoItem v-for="todo in todos" :id="todo.id" :content="todo.content" :isDone="todo.isDone" />
+        <TodoItem v-for="todo in todos" :id="todo.id" :content="todo.title" :isDone="todo.isDone" />
     </div>
 </template>
 
