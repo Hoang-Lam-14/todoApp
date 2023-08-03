@@ -8,12 +8,18 @@ const props = defineProps({
     id: Number,
 })
 
+const emit = defineEmits([ 'deleteTodo', 'updateTodo' ])
+
 const checkDone = (id) => {
-    store.commit('checkTodoItemDone', { id });
+    fetch(`http://192.168.5.131:9000/${id}`, {
+        method: "PUT",
+    }).then(() => emit('updateTodo'))
 }
 
 const removeTodo = (id) => {
-    store.commit('deleteTodoItem', { id });
+    fetch(`http://192.168.5.131:9000/${id}`, {
+        method: "DELETE",
+    }).then(() => emit('deleteTodo'))
 }
 </script>
 
