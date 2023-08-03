@@ -5,6 +5,7 @@
 <template>
     <div class="header_wrapper">
         <h1>To Do App</h1>
+        <p></p>
     </div>
 </template>
 

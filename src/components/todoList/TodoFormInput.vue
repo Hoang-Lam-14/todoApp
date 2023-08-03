@@ -2,27 +2,36 @@
 import { ref } from 'vue';
 import { useStore } from 'vuex';
 
-const store = useStore()
+const store = useStore();
 const content = ref('');
-const addTodo = () => {
+const isLoading = ref(false);
+const addTodo = async () => {
     if (content.value === '') return;
     else {
+        isLoading.value = true;
+        await new Promise(r => {
+            setTimeout(r, 2000)
+            console.log(isLoading.value); 
+        })
+
         store.commit('addTodoItem', {
             id: store.getters.todoItems.length + 1,
             content: content.value,
             isDone: false,
         })
-        content.value = ''
+        content.value = ''  
+        isLoading.value = false;
     }
 }
 
 </script>
 
 <template>
-    <form @submit.prevent="addTodo">
+    <form v-if="isLoading === false" @submit.prevent="addTodo">
         <input class="todo_input" type="text" placeholder="Nhập..." v-model="content">
         <button class="todo_button">Thêm</button>
     </form>
+    <p v-else class="loading">Loading...</p>
 </template>
 
 <style scoped>
@@ -40,6 +49,15 @@ form {
 }
 
 .todo_button {
+    font-size: 1.2rem;
+}
+
+.loading{
+    width: 60%;
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
     font-size: 1.2rem;
 }
 </style>

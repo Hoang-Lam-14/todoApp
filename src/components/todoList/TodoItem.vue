@@ -5,7 +5,7 @@ const store = useStore();
 const props = defineProps({
     content: String,
     isDone: Boolean,
-    id: String,
+    id: Number,
 })
 
 const checkDone = (id) => {
@@ -19,7 +19,7 @@ const removeTodo = (id) => {
 
 <template>
     <div class="todo_item_wrapper" :class="{ isDone: isDone }">
-        <input id="check" type="checkbox" @click="checkDone(id)">
+        <input id="check" type="checkbox" :value="isDone" @click="checkDone(id)">
         <div class="todo_item_content">{{ content }}</div>
         <button @click="removeTodo(id)">Xóa</button>
     </div>

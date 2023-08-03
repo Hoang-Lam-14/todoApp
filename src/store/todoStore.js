@@ -12,15 +12,6 @@ export const todoStore = new Vuex.Store({
         todoItems: (state) => {
             return state.todoItems;
         },
-        done: (state) => {
-            return state.todoItems.filter((item) => item.isDone).length;
-        },
-        notDone: (state) => {
-            return state.todoItems.filter((item) => !item.isDone).length;
-        },
-        totaltodoItems: (state) => {
-            return state.todoItems.length;
-        },
     },
     mutations:{
         addTodoItem: (state, payload) => {
