@@ -13,19 +13,20 @@ const addTodo = () => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ title: content.value })
+        }).then(() => {
+            emit('addTodo')
+            content.value = ''
+            isLoading.value = false
         })
-        emit('addTodo')
-        isLoading.value = false;
-    }   
+    }
 }
 </script>
 
 <template>
-    <form v-if="isLoading === false" @submit.prevent="addTodo">
-        <input class="todo_input" type="text" placeholder="Nhập..." v-model="content">
+    <form @submit.prevent="addTodo">
+        <input class="todo_input" type="text" placeholder="Nhập..." v-model="content" :disabled="isLoading">
         <button class="todo_button">Thêm</button>
     </form>
-    <p v-else class="loading">Loading...</p>
 </template>
 
 <style scoped>

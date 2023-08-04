@@ -5,11 +5,7 @@ import TodoItem from './TodoItem.vue';
 import { ref } from 'vue';
 
 const todos = ref([])
-const isLoading = ref(false)
-
-fetch('http://192.168.5.131:9000')
-    .then(response => response.json()
-        .then(data => todos.value = data))
+const isLoading = ref(true)
 
 const getTodo = () => {
     isLoading.value = true
@@ -21,13 +17,15 @@ const getTodo = () => {
             }))
 }
 
+getTodo();
+
 </script>
 
 <template>
     <div class="todo_list_wrapper">
-        <TodoFormInput @addTodo="getTodo" />
+        <TodoFormInput @addTodo="getTodo" @loading="loading"/>
         <TodoItem v-for="todo in todos" @deleteTodo="getTodo" @update="getTodo" :id="todo.id" :content="todo.title" />
-        <div v-if="isLoading" class="loading">
+        <div v-if="isLoading" class="loadingItem">
             <Loading />
         </div>
     </div>
@@ -43,7 +41,7 @@ const getTodo = () => {
     flex-direction: column;
 }
 
-.loading {
+.loadingItem {
     position: absolute;
     display: flex;
     justify-content: center;
