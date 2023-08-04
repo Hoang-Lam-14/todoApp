@@ -13,13 +13,10 @@ const addTodo = () => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ title: content.value })
-        }).then(() => {
-            emit('addTodo');
-        }).then(() => {
-            content.value = '';
-            isLoading.value = false;
         })
-    }    
+        emit('addTodo')
+        isLoading.value = false;
+    }   
 }
 </script>
 
