@@ -1,33 +1,32 @@
 <script setup>
-import Loading from './Loading.vue';
 import TodoFormInput from './TodoFormInput.vue';
 import TodoItem from './TodoItem.vue';
 import { ref } from 'vue';
+import { useStore } from 'vuex'
 
 const todos = ref([])
-const isLoading = ref(true)
+const waitingTodos = ref([])
+const store = useStore()
 
 const getTodo = () => {
-    isLoading.value = true
     fetch('http://192.168.5.131:9000')
         .then(response => response.json()
             .then(data => {
-                todos.value = data
-                isLoading.value = false
+                store.commit('getAllTodos', data)
+                store.commit('deleteWaitingTodoItem')
+                todos.value = store.getters.todoItems;
+                waitingTodos.value = store.getters.waitingTodoItems;
             }))
 }
 
 getTodo();
-
 </script>
 
 <template>
     <div class="todo_list_wrapper">
-        <TodoFormInput @addTodo="getTodo" @loading="loading"/>
-        <TodoItem v-for="todo in todos" @deleteTodo="getTodo" @update="getTodo" :id="todo.id" :content="todo.title" />
-        <div v-if="isLoading" class="loadingItem">
-            <Loading />
-        </div>
+        <TodoFormInput @loading="loading" @addTodo="getTodo"/>
+        <TodoItem v-for="todo in todos" @deleteTodo="getTodo" @update="getTodo" :id="todo.id" :content="todo.title" :isWaiting="false"/>
+        <TodoItem v-for="todo in waitingTodos" @deleteTodo="getTodo" @update="getTodo" :id="todo.id" :content="todo.title" :isWaiting="true"/>
     </div>
 </template>
 

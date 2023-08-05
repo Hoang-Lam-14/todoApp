@@ -1,22 +1,27 @@
 <script setup>
 import { ref } from 'vue';
+import { useStore } from 'vuex';
 
-const content = ref('');
-const isLoading = ref(false);
+const content = ref('')
 const emit = defineEmits(['addTodo'])
+const store = useStore();
 
 const addTodo = () => {
     if (content.value === '') return;
     else {
-        isLoading.value = true;
+        const data = content.value
+        content.value = ''
+
+        store.commit('addWaitingTodoItem', {
+            title: data,
+        })
+
         fetch('http://192.168.5.131:9000', {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ title: content.value })
+            body: JSON.stringify({ title: data })
         }).then(() => {
             emit('addTodo')
-            content.value = ''
-            isLoading.value = false
         })
     }
 }
@@ -24,7 +29,7 @@ const addTodo = () => {
 
 <template>
     <form @submit.prevent="addTodo">
-        <input class="todo_input" type="text" placeholder="Nhập..." v-model="content" :disabled="isLoading">
+        <input class="todo_input" type="text" placeholder="Nhập..." v-model="content">
         <button class="todo_button">Thêm</button>
     </form>
 </template>

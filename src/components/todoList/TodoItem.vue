@@ -1,27 +1,36 @@
 <script setup>
+import { useStore } from 'vuex'
+
+const store = useStore()
 const props = defineProps({
     content: String,
     isDone: Boolean,
     id: Number,
+    isWaiting: Boolean,
 })
 
-const emit = defineEmits([ 'deleteTodo', 'updateTodo' ])
+const emit = defineEmits(['deleteTodo', 'updateTodo'])
 
 const checkDone = (id) => {
     fetch(`http://192.168.5.131:9000/${id}`, {
         method: "PUT",
-    }).then(() => emit('updateTodo'))
+    }).then(() => {
+        emit('updateTodo')
+    })
 }
 
 const removeTodo = (id) => {
     fetch(`http://192.168.5.131:9000/${id}`, {
         method: "DELETE",
-    }).then(() => emit('deleteTodo'))
+    }).then(() => {
+        emit('deleteTodo')
+    })
+    store.commit('deleteTodoItem', {id})
 }
 </script>
 
 <template>
-    <div class="todo_item_wrapper" :class="{ isDone: isDone }">
+    <div class="todo_item_wrapper" :class="{ isWaiting: isWaiting }">
         <input id="check" type="checkbox" :value="isDone" @click="checkDone(id)">
         <div class="todo_item_content">{{ content }}</div>
         <button @click="removeTodo(id)">Xóa</button>
@@ -48,7 +57,7 @@ const removeTodo = (id) => {
     text-overflow: ellipsis;
 }
 
-.isDone {
+.isWaiting{
     opacity: 0.5;
 }
 </style>
